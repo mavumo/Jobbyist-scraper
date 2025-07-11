@@ -1,4 +1,25 @@
 name: Scrape Jobs
+
 on:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Run scraper
+        run: python scraper.py
+      - name: Commit results
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add jobs.json feed.json posted_jobs.txt
+          git commit -m "Update job data"
+          git push
