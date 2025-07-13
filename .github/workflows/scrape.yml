@@ -14,8 +14,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.11"
-      - name: List workspace files
-        run: ls -R .
       - name: Run scraper
         run: python scraper.py
       - name: Commit results
